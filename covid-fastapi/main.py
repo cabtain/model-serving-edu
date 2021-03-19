@@ -49,7 +49,7 @@ from fastapi.responses import JSONResponse
 #####Set logger for FastAPI
 # Initialize logging
 my_logger = logging.getLogger()
-my_logger.setLevel(logging.WARNING)
+my_logger.setLevel(logging.INFO)
 
 
 def save_upload_file(upload_file: UploadFile, destination: Path) -> None:
@@ -394,13 +394,15 @@ def covid_classifier_model2(img_path, filename):
 
     #MODEL2_API_URL is tensorflow serving URL in another docker
     HEADERS = {'content-type': 'application/json', 
-                'Host': 'covid19.myspace.example.com'}
+                'Host': 'covid-19.myspace.example.com'}
     #MODEL2_API_URL = 'http://127.0.0.1:8511/v1/models/covid19/versions/1:predict'
-    #MODEL2_API_URL = 'http://35.227.148.158:32380/v1/models/covid19:predict'
-    MODEL2_API_URL = 'http://35.227.148.158:8511/v1/models/covid19/versions/1:predict'
+    MODEL2_API_URL = 'http://34.97.27.243:32380/v1/models/covid-19:predict'
+    #MODEL2_API_URL = 'http://34.82.51.24:32380/v1/models/covid19:predict'
+    #MODEL2_API_URL = 'http://35.227.148.158:8511/v1/models/covid19/versions/1:predict'
     CLASS_NAMES = ['Covid19', 'Normal_Lung', 'Pneumonia_Bacterial_Lung']
 
     logging.warning("****** Tenserflow Serving Request  *****")
+    logging.info(MODEL2_API_URL)
     json_response = requests.post(MODEL2_API_URL, data=data, headers=HEADERS)
     logging.warning("****** Tenserflow Serving Response  *****")
     logging.warning(json_response)
